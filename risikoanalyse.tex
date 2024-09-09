@@ -1,0 +1,39 @@
+\storeareas\riskvalues
+\KOMAoptions{paper=a3, paper=landscape, DIV=current}
+\areaset
+  {\dimexpr\the\paperwidth-1cm\relax}
+  {\dimexpr\the\paperheight-5.5cm\relax}
+\recalctypearea
+
+\chapter{Risikoanalyse}
+\begin{table}[H]
+  \begin{tabular}{ |C{0.01\textwidth}|C{0.1\textwidth}|C{0.1\textwidth}|C{0.02\textwidth}|C{0.02\textwidth}|C{0.03\textwidth}|C{0.1\textwidth}|C{0.2\textwidth}|C{0.02\textwidth}|C{0.02\textwidth}|C{0.03\textwidth}|C{0.1\textwidth}| }
+      \hline
+      \multirow{2}*{Nr} & \multirow{2}*{Risikobeschreibung} & \multirow{2}*{Auswirkung} & \multicolumn{4}{|l|}{Vor Massnahme}& \multirow{2}*{Massnahmen} & \multicolumn{4}{|l|}{Nach Massnahme} \\
+      \cline{4-7} \cline{9-12}&&& W & S & Risiko & Handlungsweise &&  W & S & Risiko & Handlungsweise \\
+      \hline 
+      1 & TODO: Name & TODO: Beschreibung & TODO: Auswirkung & TODO: Auswirkung & \cellcolor{yellow}TODO: Risiko & TODO: Handlungsweise 
+      & TODO: Massnahme & TODO: Auswirkung & TODO: Auswirkung & \cellcolor{yellow}TODO: Risiko & TODO: Handlungsweise \\
+      \hline
+  \end{tabular}
+  \caption{Risikoanalyse}
+\end{table}
+
+\textbf{Schadensausmass:} \\
+S1 = führt zu keiner Abwertung \\
+S2 = geringe Abwertung bis 1,0 Notenpunkte \\
+S3 = hohe Abwertung über 1,0 Notenpunkte \\
+S4 = führt zu Nichtbestehen \\
+
+\textbf{Eintrittswahrscheinlichkeit:} \\
+W1 = unvorstellbar \\
+W2 = unwahrscheinlich \\
+W3 = eher vorstellbar \\
+W4 = vorstellbar \\
+W5 = Eintreffen hoch \\
+
+\restoregeometry
+\riskvalues
+
+
+

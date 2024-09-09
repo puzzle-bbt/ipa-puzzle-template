@@ -1,0 +1,242 @@
+\documentclass[12pt]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage[ngerman]{babel}
+\usepackage{enumitem}% http://ctan.org/pkg/enumitem
+\usepackage[ngerman]{translator} % Weitere Übersetzungen
+\usepackage{inconsolata}
+\usepackage{graphicx}
+\usepackage{layout}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{makecell}
+\usepackage{titlesec}
+\usepackage{roboto}
+\usepackage{sectsty}
+\usepackage{lastpage}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{lipsum}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{geometry}            % Dient zur Interface dimensionierung
+\usepackage{pdflscape}           % bessere Lesbarkeit des PDF Dokuments
+\usepackage{typearea}  % loaded automatically if using KOMA-Script class
+\usepackage{pgfgantt}
+\usepackage{wrapfig}
+\usepackage{soulutf8}
+\usepackage{pdfpages}
+\usepackage{titletoc}
+\usepackage{tocloft}
+\usepackage{atbegshi,ifthen}
+
+\lstset{language=ruby}
+
+\hypersetup{%
+    colorlinks=true,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=blue,
+    citecolor=black,
+    pdfborderstyle={/S/U/W 0}% border style will be underline of width 1pt
+}
+
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;}
+\newcounter{highlight}[page]
+\newcommand{\tikzhighlightanchor}[1]{\ensuremath{\vcenter{\hbox{\tikz[remember picture, overlay]{\coordinate (#1 highlight \arabic{highlight});}}}}}
+\newcommand{\bh}[0]{\stepcounter{highlight}\tikzhighlightanchor{begin}}
+\newcommand{\eh}[0]{\tikzhighlightanchor{end}}
+\AtBeginShipout{\AtBeginShipoutUpperLeft{\ifthenelse{\value{highlight} > 0}{\tikz[remember picture, overlay]{\foreach \stroke in {1,...,\arabic{highlight}} \draw[highlighter] (begin highlight \stroke) -- (end highlight \stroke);}}{}}}
+
+
+%Tabellen Caption links orientiert
+\captionsetup[table]{skip=0pt,singlelinecheck=off}
+
+% Redefine the \chapter command to have the chapter number followed by a space and then the chapter title
+\makeatletter
+\def\@makechapterhead#1{%
+  \vspace*{0\p@}%
+  {\parindent \z@ \raggedright \normalfont
+    \interlinepenalty\@M
+    \Huge\bfseries \ifnum \c@secnumdepth >\m@ne
+    \thechapter\ \fi % Add a space after \thechapter
+    \Huge\bfseries #1\par\nobreak
+    \vskip 20\p@
+  }}
+\makeatother
+
+% Adjust the spacing for chapter entries in the table of contents
+\titlecontents{chapter}
+  [0em] % left margin
+  {\vspace{5pt}} % above code
+  {\bfseries\thecontentslabel\quad} % numbered format
+  {\bfseries} % unnumbered format
+  {\hfill\contentspage} % filler and page number format
+  [\vspace{5pt}] % below code
+
+% Remove space above the chapter heading in the table of contents
+\renewcommand{\cftbeforechapskip}{0pt}
+
+% Remove space above the entries in the list of tables
+\setlength{\cftbeforelottitleskip}{0pt}
+
+% Remove space above the entries in the list of figures
+
+%Tabellen- & Abbildungsverzeichnis als Section und in Inhaltsverzeichnis
+
+%Weitere Spalten typen
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+\newcommand{\changefont}{%
+    \fontsize{9}{11}\selectfont
+}
+%Seitenformatierung anpassen
+\headsep=15pt
+\textwidth=400pt
+\textheight=650pt
+\oddsidemargin=25pt
+\footskip=20pt
+\fancypagestyle{plain}{}
+\pagestyle{fancy}
+\voffset=0pt
+\setlength{\parindent}{0pt}
+
+%Header höhe anpassen
+\setlength\headheight{33pt}
+%Bilderpfad
+\graphicspath{{bilder/}}
+%Header und Footer
+\fancyhf{}
+\cfoot{\today}
+\rfoot{\makebox[15cm][r]{Seite \thepage\hspace{1pt} von \pageref*{LastPage}}} % Fixed width footer
+\lfoot{\makebox[15cm][l]{Version 1.0}} % Fixed width footer
+\chead{\changefont Hitobito: Einführung von PostgreSQL Fulltext Search}
+\lhead{\includegraphics[width=2.9cm]{puzzle_tagline_blau}}
+\rhead{Niklas Jäggi}
+
+%Weiteres
+
+\definecolor{puzzleblue}{RGB}{30,90,150}
+\definecolor{burntorange}{rgb}{1, 0.33, 0.0}
+\definecolor{darkmagenta}{rgb}{0.55, 0.0, 0.55}
+\definecolor{electricpurple}{rgb}{0.75, 0.0, 1.0}
+\definecolor{feldgrau}{HTML}{009900}
+\definecolor{ferngreen}{HTML}{99cc99}
+\definecolor{darkred}{rgb}{0.8, 0.0, 0.0}
+\definecolor{darkblue}{rgb}{0.0, 0.0, 0.55}
+\author{Niklas Jäggi}
+\title{IPA}
+
+% Gantt
+
+\newcommand{\sollD}[4]{\ganttbar{#1}{#3}{#4}\ganttbar[inline, bar/.append style={bottom color=puzzleblue, top color=puzzleblue!70}]{#2}{#3}{#4}}
+\newcommand{\istD}[3]{\ganttbar[inline, bar top shift=-0.01,bar/.append style={bottom color=puzzleblue!80, top color=puzzleblue!30}]{#1}{#2}{#3}}
+
+\newcommand{\sollI}[4]{\ganttbar{#1}{#3}{#4}\ganttbar[inline, bar/.append style={bottom color=darkred!90, top color=darkred!50}]{#2}{#3}{#4}}
+\newcommand{\istI}[3]{\ganttbar[inline, bar top shift=-0.01,bar/.append style={bottom color=red!80, top color=red!30}]{#1}{#2}{#3}}
+
+\newcommand{\sollK}[4]{\ganttbar{#1}{#3}{#4}\ganttbar[inline, bar/.append style={bottom color=feldgrau, top color=feldgrau!50}]{#2}{#3}{#4}}
+\newcommand{\istK}[3]{\ganttbar[inline, bar top shift=-0.01,bar/.append style={bottom color=ferngreen, top color=ferngreen!50}]{#1}{#2}{#3}}
+
+\newcommand{\sollR}[4]{\ganttbar{#1}{#3}{#4}\ganttbar[inline, bar/.append style={bottom color=darkmagenta!80, top color=darkmagenta!50}]{#2}{#3}{#4}}
+\newcommand{\istR}[3]{\ganttbar[inline, bar top shift=-0.01,bar/.append style={bottom color=electricpurple!80, top color=electricpurple!30}]{#1}{#2}{#3}}
+
+\newcommand{\sollE}[4]{\ganttbar{#1}{#3}{#4}\ganttbar[inline, bar/.append style={bottom color=burntorange, top color=burntorange!50}]{#2}{#3}{#4}}
+\newcommand{\istE}[3]{\ganttbar[inline, bar top shift=-0.01,bar/.append style={bottom color=orange, top color=orange!50}]{#1}{#2}{#3}}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\lstset{ 
+  backgroundcolor=\color{gray!30},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+  basicstyle=\scriptsize\ttfamily,        % the size of the fonts that are used for the code
+  breakatwhitespace=true,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=Ruby,                 % the language of the code
+  morekeywords={*,rescue, it},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+
+
+
+
+
+
+\title{TODO:Titel einfügen}
+
+\author{TODO:Autor einfügen}
+
+\date{TODO:Datum eintragen}
+
+\begin{document}
+{
+  % Use \raggedright to prevent hyphenation and word splitting
+  \raggedright
+  % Adjust spacing between paragraphs
+  \setlength{\parskip}{\baselineskip}
+  \include{titlePage}
+  \include{part1}
+  \include{part2}
+}
+{
+  %Tabellen- & Abbildungsverzeichnis als Section und in Inhaltsverzeichnis
+  \makeatletter
+
+  \cftsetindents{figure}{0em}{3.5em}
+  \cftsetindents{table}{0em}{3.5em}
+
+  \renewcommand\listoftables{%
+      \section{\listtablename}%  
+      \@mkboth{\MakeUppercase\listtablename}%
+              {\MakeUppercase\listtablename}%
+      \@starttoc{lot}%
+  }
+
+  \renewcommand\listoffigures{%
+      \section{\listfigurename}%
+      \@mkboth{\MakeUppercase\listfigurename}%
+          {\MakeUppercase\listfigurename}%
+      \@starttoc{lof}%
+  }
+
+  \renewcommand\lstlistoflistings{%
+      \section{Code Verzeichnis}%
+      \@mkboth{Code Verzeichnis}%
+          {Code Verzeichnis}%
+      \@starttoc{lol}%
+  }
+  \makeatother
+  
+  \include{part3}
+
+}
+
+\end{document}
