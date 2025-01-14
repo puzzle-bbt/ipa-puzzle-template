@@ -25,7 +25,9 @@ Und danach sollte es ungefähr so aussehen
 
 ![image](https://github.com/user-attachments/assets/ae3c3295-9c14-442b-bda4-b6991951eb9f)
 
+### Zeitplan Excel Template
 
+In diesem Repo ist ein Excel Template zu finden, welches als Basis für den Zeitplan dienen kann, Tage und Daten müssen jenachdem verschoben/eingefügt werden, damit dieser den zeitlichen Vorgaben der durchzuführenden IPA entspricht.
 
 ### Code Anhang Script
 In diesem Repo gibt es ein Script (extract_code.rb) welches verwendet werden kann, um Git Changes zu LaTeX zu formatieren.
